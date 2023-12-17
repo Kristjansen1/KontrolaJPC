@@ -1,5 +1,6 @@
 package com.example.kontrolajpc.ui.theme.screens
 
+import Test
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.clickable
@@ -14,6 +15,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -22,13 +25,20 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -38,7 +48,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.kontrolajpc.ElectricalFaults
-import com.example.kontrolajpc.ui.theme.composables.AppBar
+import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.util.Calendar
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,7 +59,7 @@ fun AddErrorScreen(
     navController: NavController
 ) {
     var datum by rememberSaveable {
-        mutableStateOf("")
+        mutableStateOf(LocalDate.now().toString())
     }
     var posel by rememberSaveable {
         mutableStateOf("")
@@ -64,6 +76,12 @@ fun AddErrorScreen(
     var charCount by rememberSaveable {
         mutableStateOf("0/50")
     }
+    var dateDialogShowState by remember {
+        mutableStateOf(false)
+    }
+    var pickedDate by rememberSaveable {
+        mutableStateOf(LocalDate.now().toString())
+    }
 
     Scaffold(
         topBar = {
@@ -76,13 +94,17 @@ fun AddErrorScreen(
                 .padding(paddingValues)
         ) {
 
-            Tfield(label = "Datum", value = datum, onValueChange = {
+            Tfield(label = "Datum", value = pickedDate, onValueChange = {
                 datum = it
             },
                 trailingIcon = {
                     Icon(imageVector = Icons.Default.DateRange,
                         contentDescription = "Izberi datum",
-                        Modifier.clickable {})
+                        Modifier.clickable(
+                            onClick = {
+                                dateDialogShowState = true
+                            }
+                        ))
                 })
 
             Tfield(label = "Posel", value = posel, onValueChange = {
@@ -111,8 +133,6 @@ fun AddErrorScreen(
                     //fontWeight = FontWeight.Bold
                 )
             }
-
-
             TextField(
                 modifier = Modifier
                     .fillMaxSize()
@@ -126,6 +146,52 @@ fun AddErrorScreen(
                     }
 
                 })
+            // Decoupled snackbar host state from scaffold state for demo purposes.
+            val snackState = remember { SnackbarHostState() }
+            val snackScope = rememberCoroutineScope()
+            SnackbarHost(hostState = snackState)
+// TODO demo how to read the selected date from the state.
+            if (dateDialogShowState) {
+                Log.d("neki", "klikna")
+                val datePickerState = rememberDatePickerState()
+                val confirmEnabled = remember {
+                    derivedStateOf { datePickerState.selectedDateMillis != null }
+                }
+                DatePickerDialog(
+                    onDismissRequest = {
+                        // Dismiss the dialog when the user clicks outside the dialog or on the back
+                        // button. If you want to disable that functionality, simply use an empty
+                        // onDismissRequest.
+                        dateDialogShowState = false
+                    },
+                    confirmButton = {
+                        TextButton(
+                            onClick = {
+                                dateDialogShowState = false
+                                snackScope.launch {
+                                    snackState.showSnackbar(
+                                        "Selected date timestamp: ${datePickerState.selectedDateMillis}"
+                                    )
+                                }
+                            },
+                            enabled = confirmEnabled.value
+                        ) {
+                            Text("OK")
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(
+                            onClick = {
+                                dateDialogShowState = false
+                            }
+                        ) {
+                            Text("Cancel")
+                        }
+                    }
+                ) {
+                    DatePicker(state = datePickerState)
+                }
+            }
         }
     }
 }
@@ -151,6 +217,7 @@ fun AddFaultTopBar(navController: NavController) {
         actions = {
             IconButton(
                 onClick = {
+                    //todo: add check if fields are empty
                 }
             ) {
                 Icon(

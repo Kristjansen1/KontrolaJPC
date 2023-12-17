@@ -1,7 +1,9 @@
 package com.example.kontrolajpc.ui.theme.screens
 
+import Test
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.kontrolajpc.ui.theme.navigation.Screen
-import com.example.kontrolajpc.ui.theme.composables.AppBar
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,6 +50,7 @@ fun HomeScreen(
             }
         }
     ) { paddingValues ->
+        //Test()
         FaultList()
     }
 
