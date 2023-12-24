@@ -1,4 +1,4 @@
-package com.example.kontrolajpc.ui.theme.navigation
+package com.example.kontrolajpc.navigation
 
 sealed class Screen(val route: String) {
     object Home: Screen(route = "home_Screen")

@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 
 }
 
@@ -34,11 +35,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -60,11 +61,22 @@ dependencies {
     implementation("androidx.room:room-common:2.6.1")
     annotationProcessor ("androidx.room:room-compiler:2.6.1")
 
+    implementation("androidx.room:room-ktx:2.6.1")
+
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:2.6.1")
+
+
     //apache poi
     implementation (group = "org.apache.poi", name = "poi-ooxml", version = "5.2.5")
     implementation (group = "org.apache.xmlbeans", name =  "xmlbeans", version = "5.2.0")
     implementation ("javax.xml.stream:stax-api:1.0-2")
     implementation ("com.fasterxml:aalto-xml:1.3.2")
+
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
 
     implementation("androidx.core:core-ktx:1.12.0")

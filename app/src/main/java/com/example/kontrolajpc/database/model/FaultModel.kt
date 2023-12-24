@@ -1,4 +1,4 @@
-package com.example.kontrolajpc.model
+package com.example.kontrolajpc.database.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

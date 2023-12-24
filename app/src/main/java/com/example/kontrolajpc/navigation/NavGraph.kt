@@ -1,4 +1,4 @@
-package com.example.kontrolajpc.ui.theme.navigation
+package com.example.kontrolajpc.navigation
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
@@ -6,11 +6,17 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.kontrolajpc.ui.theme.screens.AddErrorScreen
-import com.example.kontrolajpc.ui.theme.screens.HomeScreen
+import com.example.kontrolajpc.presentation.addFault.AddErrorScreen
+import com.example.kontrolajpc.useCase.FaultEvent
+import com.example.kontrolajpc.presentation.FaultState
+import com.example.kontrolajpc.presentation.home.HomeScreen
 
 @Composable
-fun SetupNavGraph(navController: NavHostController) {
+fun SetupNavGraph(
+    navController: NavHostController,
+    state: FaultState,
+    onEvent: (FaultEvent) -> Unit
+) {
     NavHost(
         navController = navController,
         startDestination = Screen.Home.route,
@@ -24,12 +30,20 @@ fun SetupNavGraph(navController: NavHostController) {
         composable(
             route = Screen.Home.route
         ) {
-            HomeScreen(navController)
+            HomeScreen(
+                navController,
+                state,
+                onEvent
+            )
         }
         composable(
             route = Screen.AddFault.route
         ) {
-            AddErrorScreen(navController)
+            AddErrorScreen(
+                navController,
+                state,
+                onEvent
+            )
         }
     }
 }
