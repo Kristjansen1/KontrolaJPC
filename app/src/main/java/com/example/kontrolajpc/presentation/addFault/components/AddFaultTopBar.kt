@@ -1,29 +1,33 @@
 package com.example.kontrolajpc.presentation.addFault.components
 
-import android.util.Log
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.kontrolajpc.presentation.FaultState
 import com.example.kontrolajpc.useCase.FaultEvent
-import com.example.kontrolajpc.util.BackPressHandler
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddFaultTopBar(
     navController: NavController,
-    onEvent: (FaultEvent) -> Unit)
+    onEvent: (FaultEvent) -> Unit,
+    state: FaultState
+)
 {
 
-    TopAppBar(title = {
+    MediumTopAppBar(title = {
         Text(
             text = "Dodaj napako",
+            fontSize = 30.sp
         )
     },
         navigationIcon = {
@@ -40,7 +44,10 @@ fun AddFaultTopBar(
         actions = {
             IconButton(
                 onClick = {
-                    //todo: add check if fields are empty
+                    onEvent(FaultEvent.SaveFault)
+                    onEvent(FaultEvent.ClearState)
+                    navController.popBackStack()
+                    //todo check for empty fields
                 }
             ) {
                 Icon(

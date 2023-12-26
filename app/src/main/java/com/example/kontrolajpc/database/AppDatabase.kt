@@ -8,8 +8,7 @@ import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.example.kontrolajpc.database.model.FaultModel
 
-@TypeConverters(value = [DateConverter1::class])
-@Database(entities = [FaultModel::class],version = 1, exportSchema = true)
+@Database(entities = [FaultModel::class],version = 1, exportSchema = false)
 abstract class AppDatabase: RoomDatabase() {
 
     abstract fun  faultDao(): FaultDao

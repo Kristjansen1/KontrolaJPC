@@ -1,5 +1,6 @@
 package com.example.kontrolajpc.presentation.addFault.components
 
+import android.util.Log
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DisplayMode
@@ -10,10 +11,9 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
-import com.example.kontrolajpc.database.DateConverter1
 import com.example.kontrolajpc.presentation.FaultState
 import com.example.kontrolajpc.useCase.FaultEvent
-import com.example.kontrolajpc.util.DateFormat
+import com.example.kontrolajpc.util.DateUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,11 +37,10 @@ fun PickDate(
                 TextButton(
                     onClick = {
                         onEvent(FaultEvent.SetDateDialogShowState(false))
+                        Log.d("izbrano",DateUtil.fromLongToDate(datePickerState.selectedDateMillis!!) + "datepicker")
                         onEvent(
                             FaultEvent.SetDate(
-                                DateFormat.dateToFormat(
-                                    DateConverter1().toDate(datePickerState.selectedDateMillis)!!
-                                )
+                                datePickerState.selectedDateMillis!!
                             )
                         )
                     },

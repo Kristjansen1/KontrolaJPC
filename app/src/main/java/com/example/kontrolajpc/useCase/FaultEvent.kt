@@ -1,10 +1,14 @@
 package com.example.kontrolajpc.useCase
 
+import com.example.kontrolajpc.database.model.FaultModel
+import java.time.LocalDateTime
+
 sealed interface FaultEvent {
 
     object SaveFault: FaultEvent
+    data class DeleteFault(val fault: FaultModel) : FaultEvent
 
-    data class SetDate(val date: String): FaultEvent
+    data class SetDate(val date: Long): FaultEvent
     data class SetPosel(val posel: String): FaultEvent
     data class SetSeriska(val serijska: String): FaultEvent
     data class SetProizvodniNalog(val pnalog: String): FaultEvent

@@ -1,12 +1,14 @@
 package com.example.kontrolajpc
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kontrolajpc.database.AppDatabase
 import com.example.kontrolajpc.database.model.FaultModel
 import com.example.kontrolajpc.useCase.FaultEvent
 import com.example.kontrolajpc.presentation.FaultState
+import com.example.kontrolajpc.util.DateUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -15,6 +17,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.Date
 
 class ViewModel(application: Application): AndroidViewModel(application) {
 
@@ -40,11 +44,37 @@ class ViewModel(application: Application): AndroidViewModel(application) {
         //Log.d("nekiivent",event.toString())
         when (event) {
             is FaultEvent.SaveFault -> {
+                val date = state.value.date
+                val posel = state.value.posel
+                val serijska = state.value.serijska
+                val napaka = state.value.vrstaNapake
+                val opomba = state.value.opisNapake
+                val exported = false
 
+                val fault = FaultModel(
+                        datum = date,
+                        posel = posel,
+                        serijska = serijska,
+                        napaka = napaka,
+                        opomba = opomba,
+                        exported = exported
+                    )
+
+                viewModelScope.launch(Dispatchers.IO) {
+                    appDatabase.faultDao().insert(fault)
+                }
+            }
+
+            is FaultEvent.DeleteFault -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    appDatabase.faultDao().delete(event.fault)
+                }
             }
 
             is FaultEvent.SetDate -> {
-                _state.update { it.copy(
+                _state.update {
+                    Log.d("izbrano",DateUtil.fromLongToDate(event.date) + "viewmodel")
+                    it.copy(
                     date = event.date
                 ) }
             }
@@ -76,7 +106,7 @@ class ViewModel(application: Application): AndroidViewModel(application) {
 
             is FaultEvent.ClearState -> {
                 _state.update { it.copy(
-                    date = LocalDate.now().toString(),
+                    date = DateUtil.cDate(),
                     posel = "",
                     serijska = "",
                     proizvodnjiNalog = "",
