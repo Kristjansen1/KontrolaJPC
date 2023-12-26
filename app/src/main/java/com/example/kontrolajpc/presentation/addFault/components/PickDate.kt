@@ -28,16 +28,17 @@ fun PickDate(
             derivedStateOf { datePickerState.selectedDateMillis != null }
         }
         DatePickerDialog(
-
             onDismissRequest = {
                 onEvent(FaultEvent.SetDateDialogShowState(false))
-
             },
             confirmButton = {
                 TextButton(
                     onClick = {
                         onEvent(FaultEvent.SetDateDialogShowState(false))
-                        Log.d("izbrano",DateUtil.fromLongToDate(datePickerState.selectedDateMillis!!) + "datepicker")
+                        Log.d(
+                            "izbrano",
+                            DateUtil.fromLongToDate(datePickerState.selectedDateMillis!!) + "datepicker"
+                        )
                         onEvent(
                             FaultEvent.SetDate(
                                 datePickerState.selectedDateMillis!!

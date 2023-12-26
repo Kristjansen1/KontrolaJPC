@@ -1,6 +1,6 @@
-package com.example.kontrolajpc
+@file:Suppress("NonAsciiCharacters", "EnumEntryName")
 
-import androidx.compose.runtime.Composable
+package com.example.kontrolajpc
 
 enum class ElectricalFaults {
     Cee_Priklop,
@@ -11,7 +11,7 @@ enum class ElectricalFaults {
     Kanal;
 
     companion object {
-        fun getPositionByName(name: String) : Int {
+        fun getPositionByName(name: String): Int {
             return values().indexOfFirst {
                 it.name.equals(name, ignoreCase = true)
             }

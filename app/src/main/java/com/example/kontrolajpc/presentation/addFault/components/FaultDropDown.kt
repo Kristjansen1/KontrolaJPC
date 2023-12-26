@@ -1,6 +1,5 @@
 package com.example.kontrolajpc.presentation.addFault.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,10 +27,6 @@ fun FaultDropDown(
     var isExpanded by remember {
         mutableStateOf(false)
     }
-    var fault by remember {
-        mutableStateOf("")
-    }
-
     ExposedDropdownMenuBox(modifier = Modifier.padding(start = 20.dp, top = 20.dp),
         expanded = isExpanded,
         onExpandedChange = {
@@ -51,14 +46,21 @@ fun FaultDropDown(
             colors = ExposedDropdownMenuDefaults.textFieldColors(),
             modifier = Modifier.menuAnchor()
         )
-        ExposedDropdownMenu(expanded = isExpanded, onDismissRequest = { isExpanded = false }) {
+        ExposedDropdownMenu(
+            expanded = isExpanded,
+            onDismissRequest = {
+                isExpanded = false
+            }
+        ) {
             ElectricalFaults.values().forEach {
                 DropdownMenuItem(text = {
                     Text(it.name)
                 }, onClick = {
                     isExpanded = false
-                    onEvent(FaultEvent.SetVrstaNapake(
-                        ElectricalFaults.getPositionByName(it.name))
+                    onEvent(
+                        FaultEvent.SetVrstaNapake(
+                            ElectricalFaults.getPositionByName(it.name)
+                        )
                     )
                 })
             }
