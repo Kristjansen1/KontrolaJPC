@@ -92,7 +92,7 @@ fun AddErrorScreen(
             Tfield(label = "Serijska", value = state.serijska, onValueChange = {
                 onEvent(FaultEvent.SetSeriska(it))
             })
-            Tfield(label = "Proizvodni nalog", value = state.proizvodnjiNalog, onValueChange = {
+            Tfield(label = "Proizvodni nalog", value = state.proizvodniNalog, onValueChange = {
                 onEvent(FaultEvent.SetProizvodniNalog(it))
                 Log.d("newvalue", it)
             })

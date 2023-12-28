@@ -33,13 +33,20 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), FaultState())
 
     fun onEvent(event: FaultEvent) {
-        //Log.d("nekiivent",event.toString())
         when (event) {
+
+            is FaultEvent.SetShowHideEditIconId -> {
+
+                _state.update { it.copy(
+                    showEditFaultIconId = event.faultId
+                ) }
+            }
             is FaultEvent.SaveFault -> {
                 val date = state.value.date
                 val posel = state.value.posel
                 val serijska = state.value.serijska
-                val napaka = state.value.vrstaNapake
+                val proizvodniNalog = state.value.proizvodniNalog
+                val vrstaNapake = state.value.vrstaNapake
                 val opomba = state.value.opisNapake
                 val exported = false
 
@@ -47,7 +54,8 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
                     datum = date,
                     posel = posel,
                     serijska = serijska,
-                    napaka = napaka,
+                    proizvodniNalog = proizvodniNalog,
+                    vrstaNapake = vrstaNapake,
                     opomba = opomba,
                     exported = exported
                 )
@@ -73,6 +81,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
             }
 
             is FaultEvent.SetPosel -> {
+                applog("applog","onevent")
                 _state.update {
                     it.copy(
                         posel = event.posel
@@ -91,7 +100,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
             is FaultEvent.SetProizvodniNalog -> {
                 _state.update {
                     it.copy(
-                        proizvodnjiNalog = event.pnalog
+                        proizvodniNalog = event.pnalog
                     )
                 }
             }
@@ -118,7 +127,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
                         date = DateUtil.cDate(),
                         posel = "",
                         serijska = "",
-                        proizvodnjiNalog = "",
+                        proizvodniNalog = "",
                         vrstaNapake = 0,
                         opisNapake = ""
                     )

@@ -8,8 +8,9 @@ data class FaultState(
     val date: Long = DateUtil.cDate(),
     val posel: String = "",
     val serijska: String = "",
-    val proizvodnjiNalog: String = "",
+    val proizvodniNalog: String = "",
     val vrstaNapake: Int = 0,
     val opisNapake: String = "",
     val dateDialogShowState: Boolean = false,
+    val showEditFaultIconId: Int = 0
 )
