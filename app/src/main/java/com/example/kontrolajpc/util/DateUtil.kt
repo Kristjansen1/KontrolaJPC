@@ -5,11 +5,10 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-const val DATE_FORMAT = "dd. MM. yyyy"
 
 object DateUtil {
-    fun fromLongToDate(long: Long): String {
-        val sdf = SimpleDateFormat(DATE_FORMAT, Locale.FRANCE)
+    fun fromLongToDate(long: Long,format: String): String {
+        val sdf = SimpleDateFormat(format, Locale.FRANCE)
         Log.d("datum", sdf.format(long))
         return sdf.format(long)
     }
@@ -18,5 +17,9 @@ object DateUtil {
         val c = Calendar.getInstance()
         Log.d("datum1", c.timeInMillis.toString())
         return c.timeInMillis
+    }
+
+    fun cDateWithFormat(format: String) : String {
+         return fromLongToDate(cDate(),format)
     }
 }

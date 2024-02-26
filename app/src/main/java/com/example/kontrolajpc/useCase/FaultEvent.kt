@@ -1,5 +1,6 @@
 package com.example.kontrolajpc.useCase
 
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.example.kontrolajpc.database.model.FaultModel
 
 sealed interface FaultEvent {
@@ -14,6 +15,14 @@ sealed interface FaultEvent {
     data object ClearState : FaultEvent
     data class SetDateDialogShowState(val showDateDialog: Boolean) : FaultEvent
 
-    data class SetShowHideEditIconId(val faultId: Int) : FaultEvent
+    //data class SetShowHideEditIconId(val faultId: Int) : FaultEvent
+    data class SetEnableEdit(val enableEdit: Boolean) : FaultEvent
 
+    data class SetFault(val fault: FaultModel): FaultEvent
+
+    data class BulkDelete(val idsToDelete: SnapshotStateList<Int>): FaultEvent
+
+    data  object ExportFaults : FaultEvent
+
+    data object DeleteExported : FaultEvent
 }

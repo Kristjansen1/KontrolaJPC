@@ -13,6 +13,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.remember
 import com.example.kontrolajpc.presentation.FaultState
 import com.example.kontrolajpc.useCase.FaultEvent
+import com.example.kontrolajpc.util.Const
 import com.example.kontrolajpc.util.DateUtil
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,7 +38,7 @@ fun PickDate(
                         onEvent(FaultEvent.SetDateDialogShowState(false))
                         Log.d(
                             "izbrano",
-                            DateUtil.fromLongToDate(datePickerState.selectedDateMillis!!) + "datepicker"
+                            DateUtil.fromLongToDate(datePickerState.selectedDateMillis!!, Const.DATE_FORMAT_UI) + "datepicker"
                         )
                         onEvent(
                             FaultEvent.SetDate(

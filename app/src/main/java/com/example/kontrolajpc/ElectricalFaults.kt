@@ -12,7 +12,7 @@ enum class ElectricalFaults {
 
     companion object {
         fun getPositionByName(name: String): Int {
-            return values().indexOfFirst {
+            return entries.toTypedArray().indexOfFirst {
                 it.name.equals(name, ignoreCase = true)
             }
         }

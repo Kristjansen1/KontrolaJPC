@@ -13,6 +13,6 @@ data class FaultModel(
     @ColumnInfo(name = "serijska") var serijska: String?,
     @ColumnInfo(name = "proizvodniNalog") var proizvodniNalog: String?,
     @ColumnInfo(name = "vrstaNapake") var vrstaNapake: Int? = 0,
-    @ColumnInfo(name = "opomba") var opomba: String?,
+    @ColumnInfo(name = "opisNapake") var opisNapake: String?,
     @ColumnInfo(name = "exported") var exported: Boolean = false
 )

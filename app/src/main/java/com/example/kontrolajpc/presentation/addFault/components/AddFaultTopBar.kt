@@ -23,14 +23,23 @@ fun AddFaultTopBar(
 )
 {
 
+    val titleText = if (state.enableEdit) {
+        "Uredi napako"
+    } else {
+        "Dodaj napako"
+    }
+
+    //val cboard = ClipboardHelper(LocalContext.current)
+    //cboard.getClipboardLastThree()
     MediumTopAppBar(title = {
         Text(
-            text = "Dodaj napako",
+            text = titleText,
             fontSize = 30.sp
         )
     },
         navigationIcon = {
-            IconButton(onClick = {
+            IconButton(
+                onClick = {
                 navController.popBackStack()
                 onEvent(FaultEvent.ClearState)
             }) {
@@ -43,9 +52,14 @@ fun AddFaultTopBar(
         actions = {
             IconButton(
                 onClick = {
+                    if (state.enableEdit) {
+                        onEvent(FaultEvent.SetEnableEdit(false))
+
+                    }
                     onEvent(FaultEvent.SaveFault)
                     onEvent(FaultEvent.ClearState)
                     navController.popBackStack()
+
                     //todo check for empty fields
                 }
             ) {

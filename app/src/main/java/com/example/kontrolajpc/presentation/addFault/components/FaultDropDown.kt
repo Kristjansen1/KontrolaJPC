@@ -33,7 +33,7 @@ fun FaultDropDown(
             isExpanded = it
         }) {
         TextField(
-            value = ElectricalFaults.values()[state.vrstaNapake].toString(),
+            value = ElectricalFaults.entries[state.vrstaNapake].toString(),
             label = {
                 Text("Vrsta napake")
             },
@@ -52,7 +52,7 @@ fun FaultDropDown(
                 isExpanded = false
             }
         ) {
-            ElectricalFaults.values().forEach {
+            ElectricalFaults.entries.forEach {
                 DropdownMenuItem(text = {
                     Text(it.name)
                 }, onClick = {

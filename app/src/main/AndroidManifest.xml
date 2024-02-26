@@ -4,8 +4,10 @@
 
     <uses-permission android:name="android.permission.VIBRATE" />
 
+
     <application
 
+        android:name=".KontrolaJPC"
 
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -16,6 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KontrolaJPC"
         tools:targetApi="31">
+
+   <!--     <service
+            android:name=".ClipboardService"
+            android:exported="false"/>
+
+-->
         <activity
             android:name=".MainActivity"
             android:exported="true"

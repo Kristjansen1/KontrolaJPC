@@ -7,23 +7,8 @@ import androidx.room.RoomDatabase
 import com.example.kontrolajpc.database.model.FaultModel
 
 @Database(entities = [FaultModel::class], version = 1, exportSchema = false)
-abstract class AppDatabase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase(
+
+) {
     abstract fun faultDao(): FaultDao
-
-    companion object {
-        @Volatile
-        private var INSTANCE: AppDatabase? = null
-        fun getDatabase(context: Context): AppDatabase {
-            return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    AppDatabase::class.java,
-                    "database"
-                ).build()
-                INSTANCE = instance
-
-                instance
-            }
-        }
-    }
 }
